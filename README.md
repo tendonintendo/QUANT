@@ -54,19 +54,23 @@ Key findings from this module:
 
 ### Modeling & Simulation
 - **GARCH Models**: Capturing volatility clustering and persistence in financial time series
-- **Monte Carlo Methods**: Generating synthetic market data to test strategy robustness
+- **Monte Carlo Methods**: Generating synthetic market data to test strategy robustness and resampling trades for robustness analysis
+- **VWAP (Volume-Weighted Average Price)**: Using VWAP as a fair-value anchor for intraday mean-reversion strategies
+- **ATR (Average True Range)**: Measuring volatility for dynamic risk controls and entry filters
+- **EMA (Exponential Moving Average)**: Trend filtering to avoid counter-trend trades in mean-reversion setups
 - **Volatility Regimes**: Classifying market conditions into low/medium/high volatility states
 
 ### Backtesting & Validation
-- **Risk Management**: Position sizing, stop losses, and risk per trade controls
-- **Statistical Testing**: Permutation tests for significance, forward return analysis
+- **Risk Management**: Position sizing, stop losses, and risk per trade controls; fixed dollar risk and ATR-based exits
+- **Statistical Testing**: Permutation tests for significance, forward return analysis, and trade resampling
 - **Bias Detection**: Separating genuine alpha from data-snooping and model overfitting
+- **Profit Factor Analysis**: Evaluating strategy performance through win/loss asymmetry and drawdown bounds
 
 ### Computer Science Applications
-- **Data Structures**: Time series manipulation with pandas
-- **Algorithms**: Signal generation, backtesting loops, statistical computations
-- **Visualization**: Matplotlib for financial charts and analysis
-- **APIs**: yfinance for market data retrieval
+- **Data Structures**: Time series manipulation with pandas for intraday and daily data
+- **Algorithms**: Signal generation, backtesting loops, statistical computations, and resampling techniques
+- **Visualization**: Matplotlib for financial charts and analysis; custom plots for Monte Carlo results
+- **APIs**: yfinance for market data retrieval and intraday data processing
 
 ## Getting Started
 
