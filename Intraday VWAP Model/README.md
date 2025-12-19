@@ -243,19 +243,3 @@ This confirms the strategy is **psychologically and financially survivable**.
   * Monte Carlo robustness
 * Sharpe ratio is not suitable for fat-tailed intraday systems
 * Wick signals are best used as **filters**, not forecasts
-
----
-
-## Status
-
-This repository represents a **completed research cycle**:
-
-* Hypothesis -> testing -> rejection -> reframing -> implementation -> evaluation
-
-Further work could include:
-
-* Walk-forward validation
-* Regime segmentation
-* Execution modeling and slippage analysis
-
-But as a research artifact, this model is **complete and internally consistent**.
