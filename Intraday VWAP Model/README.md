@@ -22,7 +22,7 @@ The goal is not to optimize Sharpe ratio, but to construct a **structurally soun
 
 ## Relationship to Previous Research
 
-### What We Learned Previously
+### What We Learned Previously in Price Action Analysis
 
 From the prior wick-based research:
 
