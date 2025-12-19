@@ -49,7 +49,7 @@ Instead:
   * Fixed risk and asymmetric exits
 
 In short:  
-> The wick is not the edge -- **the market structure is**.
+> The wick is not the edge, **the market structure is**.
 
 ---
 
@@ -70,7 +70,9 @@ In short:
 
 VWAP represents the average price traded throughout the session, weighted by volume:
 
-**VWAP = (Sum of [Price * Volume]) / (Sum of Volume)**
+<p align="center">
+  <code>VWAP = ∑(Price × Volume) / ∑(Volume)</code>
+</p>
 
 Market participants (especially institutions) commonly treat VWAP as a **fair value anchor**.
 
