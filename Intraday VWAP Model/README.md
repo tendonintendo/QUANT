@@ -26,13 +26,13 @@ The goal is not to optimize Sharpe ratio, but to construct a **structurally soun
 
 From the prior wick-based research:
 
-- Wick signals **do not generate statistically significant forward returns on their own**
-- Apparent profitability in synthetic Monte Carlo tests was caused by **structural bias**
-- Real market data showed:
-  - Weak drift
-  - Low signal frequency
-  - Strong asymmetry between long and short behavior
-- Wick patterns are better suited as **filters or context**, not entries
+* Wick signals **do not generate statistically significant forward returns on their own**
+* Apparent profitability in synthetic Monte Carlo tests was caused by **structural bias**
+* Real market data showed:
+  * Weak drift
+  * Low signal frequency
+  * Strong asymmetry between long and short behavior
+* Wick patterns are better suited as **filters or context**, not entries
 
 ### How This Project Uses Those Results
 
@@ -40,16 +40,16 @@ This model **does not assume wicks predict direction**.
 
 Instead:
 
-- Wicks are treated as **rejection signals**
-- Trades are only taken when price is **extended from VWAP**
-- The target is **mean reversion**, not continuation
-- Directional bias is controlled using:
-  - VWAP distance
-  - EMA slope (trend context)
-  - Fixed risk and asymmetric exits
+* Wicks are treated as **rejection signals**
+* Trades are only taken when price is **extended from VWAP**
+* The target is **mean reversion**, not continuation
+* Directional bias is controlled using:
+  * VWAP distance
+  * EMA slope (trend context)
+  * Fixed risk and asymmetric exits
 
 In short:  
-> The wick is not the edge — **the market structure is**.
+> The wick is not the edge -- **the market structure is**.
 
 ---
 
@@ -57,10 +57,10 @@ In short:
 
 ### Strategy Type
 
-- **Intraday mean reversion**
-- Instrument: **SPY**
-- Timeframe: Intraday (5-minute bars)
-- Holding period: Short (1–6 bars)
+* **Intraday mean reversion**
+* Instrument: **SPY**
+* Timeframe: Intraday (5-minute bars)
+* Holding period: Short (1-6 bars)
 
 ---
 
@@ -70,17 +70,15 @@ In short:
 
 VWAP represents the average price traded throughout the session, weighted by volume:
 
-\[
-VWAP = \frac{\sum (Price \times Volume)}{\sum Volume}
-\]
+**VWAP = (Sum of [Price * Volume]) / (Sum of Volume)**
 
 Market participants (especially institutions) commonly treat VWAP as a **fair value anchor**.
 
 In this model:
 
-- Price far above VWAP → potential short mean reversion
-- Price far below VWAP → potential long mean reversion
-- VWAP is used as the **primary take-profit target**
+* Price far above VWAP -> potential short mean reversion
+* Price far below VWAP -> potential long mean reversion
+* VWAP is used as the **primary take-profit target**
 
 ---
 
@@ -88,9 +86,9 @@ In this model:
 
 A trade is only considered when:
 
-- Price is sufficiently far from VWAP (measured in ATR units)
-- The candle exhibits a **large wick relative to its body**
-- The wick is large relative to recent volatility (ATR)
+* Price is sufficiently far from VWAP (measured in ATR units)
+* The candle exhibits a **large wick relative to its body**
+* The wick is large relative to recent volatility (ATR)
 
 This captures **failed price extension**, not directional prediction.
 
@@ -100,8 +98,8 @@ This captures **failed price extension**, not directional prediction.
 
 To avoid fading strong trends:
 
-- Long trades are suppressed if downside momentum is strong
-- Short trades are suppressed if upside momentum is strong
+* Long trades are suppressed if downside momentum is strong
+* Short trades are suppressed if upside momentum is strong
 
 This aligns with earlier findings that wick signals degrade in trending regimes.
 
@@ -109,15 +107,15 @@ This aligns with earlier findings that wick signals degrade in trending regimes.
 
 ### 4. Risk Management
 
-- Fixed dollar risk per trade
-- Stop loss defined in ATR units
-- Profit target set at VWAP
-- Maximum holding time enforced
+* Fixed dollar risk per trade
+* Stop loss defined in ATR units
+* Profit target set at VWAP
+* Maximum holding time enforced
 
 This ensures:
 
-- Losses are small and consistent
-- Wins are allowed to expand naturally
+* Losses are small and consistent
+* Wins are allowed to expand naturally
 
 ---
 
@@ -157,9 +155,9 @@ Despite a low win rate, average wins are significantly larger than losses.
 
 Interpretation:
 
-- Returns are **highly skewed**
-- Equity curve is jump-driven rather than smooth
-- Sharpe ratio is not an appropriate primary metric for this payoff structure
+* Returns are **highly skewed**
+* Equity curve is jump-driven rather than smooth
+* Sharpe ratio is not an appropriate primary metric for this payoff structure
 
 ---
 
@@ -175,10 +173,10 @@ Interpretation:
 
 Interpretation:
 
-- The strategy is robust to trade sequencing
-- Downside is bounded
-- Upside is asymmetric
-- Most random permutations remain profitable
+* The strategy is robust to trade sequencing
+* Downside is bounded
+* Upside is asymmetric
+* Most random permutations remain profitable
 
 ---
 
@@ -203,8 +201,8 @@ Interpretation:
 
 This is a hallmark of well-constructed mean-reversion systems:
 
-- Losses are rejected quickly
-- Winners are given time to revert fully
+* Losses are rejected quickly
+* Winners are given time to revert fully
 
 ---
 
@@ -223,26 +221,26 @@ This confirms the strategy is **psychologically and financially survivable**.
 
 ## Final Conclusions
 
-- Wick patterns alone do not produce alpha  
-- Wick behavior becomes useful when **anchored to market structure**
-- VWAP provides a strong intraday mean-reversion reference
-- The resulting strategy:
-  - Has low win rate but strong payoff asymmetry
-  - Exhibits bounded drawdowns
-  - Is robust under Monte Carlo resampling
-- Low Sharpe is expected and acceptable given return skew
+* Wick patterns alone do not produce alpha  
+* Wick behavior becomes useful when **anchored to market structure**
+* VWAP provides a strong intraday mean-reversion reference
+* The resulting strategy:
+  * Has low win rate but strong payoff asymmetry
+  * Exhibits bounded drawdowns
+  * Is robust under Monte Carlo resampling
+* Low Sharpe is expected and acceptable given return skew
 
 ---
 
 ## Key Takeaways
 
-- Edge comes from **structure, not patterns**
-- Mean-reversion strategies should be evaluated using:
-  - Profit factor
-  - Drawdown
-  - Monte Carlo robustness
-- Sharpe ratio is not suitable for fat-tailed intraday systems
-- Wick signals are best used as **filters**, not forecasts
+* Edge comes from **structure, not patterns**
+* Mean-reversion strategies should be evaluated using:
+  * Profit factor
+  * Drawdown
+  * Monte Carlo robustness
+* Sharpe ratio is not suitable for fat-tailed intraday systems
+* Wick signals are best used as **filters**, not forecasts
 
 ---
 
@@ -250,12 +248,12 @@ This confirms the strategy is **psychologically and financially survivable**.
 
 This repository represents a **completed research cycle**:
 
-- Hypothesis → testing → rejection → reframing → implementation → evaluation
+* Hypothesis -> testing -> rejection -> reframing -> implementation -> evaluation
 
 Further work could include:
 
-- Walk-forward validation
-- Regime segmentation
-- Execution modeling and slippage analysis
+* Walk-forward validation
+* Regime segmentation
+* Execution modeling and slippage analysis
 
 But as a research artifact, this model is **complete and internally consistent**.
