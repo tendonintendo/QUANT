@@ -4,10 +4,11 @@
 
 This repository documents my personal journey into quantitative finance and algorithmic trading. As someone diving deeper into the world of trading, I've created this project to explore key concepts in quant finance, with a focus on modeling, simulation, backtesting, and other computer science principles applied to financial markets.
 
-The project so far has been organized into three main areas:
-- **Modeling**: Exploring volatility modeling techniques like GARCH for cryptocurrency markets
-- **Price Action Model**: Developing and validating a wick-based trading strategy using Monte Carlo simulation and statistical testing
+The project so far has been organized into four main areas:
 - **Visualize**: Basic data visualization and analysis tools for market data
+- **Modeling**: Exploring volatility modeling techniques like GARCH for cryptocurrency markets
+- **Price Action Analysis**: Developing and validating a wick-based trading strategy using Monte Carlo simulation and statistical testing
+- **Intraday VWAP Model**: Intraday mean-reversion strategy combining VWAP anchors with wick-based filters for SPY trading
 
 This is an educational project aimed at understanding the complexities of financial markets through hands-on implementation rather than building production-ready trading systems.
 
@@ -21,7 +22,7 @@ Basic visualization tools for financial data analysis:
 Contains Jupyter notebooks exploring advanced financial modeling techniques:
 - `garch.ipynb`: Implementation of GARCH (Generalized Autoregressive Conditional Heteroskedasticity) models for volatility forecasting in Bitcoin. Includes rolling volatility analysis, volatility regime classification, and multi-step ahead volatility predictions.
 
-### Price Action Model/
+### Price Action Analysis/
 A comprehensive research framework for testing wick-based candlestick trading strategies:
 - `main.py`: Entry point for running the complete analysis pipeline
 - `backtest.py`: Backtesting engine with risk management (stop losses, position sizing)
@@ -30,12 +31,24 @@ A comprehensive research framework for testing wick-based candlestick trading st
 - `wick_signal_validation.py`: Statistical validation of signals using forward return analysis and permutation testing
 - `mc_visualization.py`: Visualization tools for Monte Carlo results
 - `config.py`: Configuration parameters for risk management and strategy settings
-- `requirements.txt`: Python dependencies (numpy, pandas, matplotlib, yfinance)
 
 Key findings from this module:
 - Monte Carlo simulations revealed strong model bias in synthetic data
 - Real market data showed weak statistical significance for wick patterns
 - Emphasizes the importance of rigorous statistical testing over curve-fitting
+
+### Intraday VWAP Model/
+An intraday mean-reversion trading strategy for SPY using 5-minute bars:
+- `main.py`: Entry point for running the backtest and evaluation pipeline
+- `backtest.py`: Backtesting engine with VWAP-based entries, wick filters, and risk management
+- `data.py`: Data acquisition and preprocessing for intraday SPY data
+- `evaluation.py`: Performance analysis, Monte Carlo robustness testing, and trade statistics
+
+Key findings from this module:
+- Wick patterns serve as effective contextual filters for mean-reversion setups
+- VWAP provides a strong intraday fair-value anchor for profit targets
+- Strategy exhibits asymmetric payoffs with bounded drawdowns and low win rate but high profit factor
+- Emphasizes structural edges over pattern-based predictions in intraday trading
 
 ## Key Concepts Explored
 
@@ -60,35 +73,26 @@ Key findings from this module:
 ### Prerequisites
 - Python 3.11+
 - Jupyter Notebook
-- Required packages listed in `Price Action Model/requirements.txt`
+- Required packages listed in `requirements.txt`
 
 ### Installation
 ```bash
-cd "Price Action Model"
 pip install -r requirements.txt
 ```
 
-### Running the Price Action Model
+### Running the Models
 ```bash
 python main.py
 ```
 
-This will execute the full pipeline: Monte Carlo simulation, signal validation, and backtesting.
+This will execute the full pipeline: Monte Carlo simulation, backtesting, and evaluation.
 
 ### Exploring Models
 Open the Jupyter notebooks in Modeling/ and Visualize/ to see interactive implementations of GARCH modeling and data visualization.
 
 ## Current Status
 
-This project represents my ongoing learning process. The Price Action Model module has been thoroughly researched and validated, revealing important lessons about statistical significance in trading strategy development. The Modeling section demonstrates practical application of advanced volatility models, while the Visualize module provides foundational data analysis tools.
-
-## Future Directions
-
-- Integration of machine learning models for pattern recognition
-- Multi-asset strategy development
-- Walk-forward optimization and out-of-sample testing
-- Portfolio optimization techniques
-- Real-time trading system implementation
+This project represents my ongoing learning process. Through rigorous research in the Price Action Analysis module, I learned that wick patterns alone lack standalone predictive power, emphasizing the need for statistical validation over curve-fitting. Building on these insights, the Intraday VWAP Model demonstrates how wick signals can serve as effective contextual filters in structured mean-reversion strategies, highlighting the importance of market structure and bounded risk management in developing survivable trading systems.
 
 ## Disclaimer
 
