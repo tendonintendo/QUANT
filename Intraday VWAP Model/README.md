@@ -20,6 +20,25 @@ The goal is not to optimize Sharpe ratio, but to construct a **structurally soun
 
 ---
 
+## Why Intraday vs Interday
+
+During the previous **Price Action Analysis**, we focused on interday data:
+
+* Interday signals are **rare**, and holding periods span multiple days
+* Wick signals in interday bars showed **low frequency and weak statistical significance**
+* Monte Carlo and forward return analysis suggested **structural bias dominates**
+
+By contrast, intraday data provides:
+
+* **More frequent opportunities** to apply wick rejection logic
+* Short-term mean reversion effects around VWAP
+* Controlled holding periods (1–6 bars), allowing tight risk management
+* Ability to **exploit microstructure inefficiencies** rather than relying on daily drift
+
+In short: intraday trading allows us to **operationalize wick signals as contextual filters** in a high-frequency mean-reversion framework, which was impractical at interday horizons.
+
+---
+
 ## Relationship to Previous Research
 
 ### What We Learned Previously in Price Action Analysis
@@ -60,7 +79,7 @@ In short:
 * **Intraday mean reversion**
 * Instrument: **SPY**
 * Timeframe: Intraday (5-minute bars)
-* Holding period: Short (1-6 bars)
+* Holding period: Short (1–6 bars)
 
 ---
 
@@ -78,8 +97,8 @@ Market participants (especially institutions) commonly treat VWAP as a **fair va
 
 In this model:
 
-* Price far above VWAP -> potential short mean reversion
-* Price far below VWAP -> potential long mean reversion
+* Price far above VWAP → potential short mean reversion
+* Price far below VWAP → potential long mean reversion
 * VWAP is used as the **primary take-profit target**
 
 ---
