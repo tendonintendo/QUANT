@@ -1,106 +1,85 @@
-# Wick-Based Price Action Strategy  
-## Research Summary and Validation Notes
+# Statistical Validation of Wick-Based Price Action Signals: A Quantitative Study on Market Efficiency and Signal Invalidation
 
-## Overview
-
-This project investigates a wick-based price action trading idea using both synthetic data and real market data. The goal is not to immediately build a profitable strategy, but to rigorously test whether wick-based candlestick patterns contain statistically meaningful predictive information.
-
-The research combines Monte Carlo simulation, forward return analysis, and permutation testing to separate structural bias from genuine signal.
+**Author:** Muhammad Rengga Putra Kuncoro  
+**Methodology:** Permutation Testing and Monte Carlo Bias Detection  
+**Dataset:** SPY ETF (2010 to 2025) and Synthetic OHLC Data
 
 ---
 
-## 1. Monte Carlo Simulation Using Synthetic OHLC Data
-
-### Objective
-
-Monte Carlo simulation is used to evaluate how the strategy behaves when prices are generated from a stochastic process without embedded market structure.
-
-### Summary Results
-
-| Metric | Result |
-|------|-------|
-| Mean Final Capital | ~1100+ |
-| Median Final Capital | ~1100+ |
-| Win Rate | ~90 percent |
-| Equity Curve | Smooth, upward sloping |
-
-### Interpretation
-
-The strategy performs unrealistically well on synthetic data. Equity curves exhibit near-linear growth and extremely high win rates. Since the data contains no real market structure, this behavior indicates model bias rather than true alpha.
-
-Conclusion: Monte Carlo results alone are insufficient for validating a trading strategy.
+## Abstract
+This study investigates the predictive validity of wick-based candlestick patterns within a rigorous quantitative framework. Utilizing 15 years of SPY data, we test the null hypothesis ($H_0$) that these patterns contain no standalone directional alpha. Initial Monte Carlo simulations using synthetic OHLC data revealed a consistent structural bias, often yielding win rates exceeding 95% on purely random noise. Empirical testing on real market data failed to reject the null hypothesis ($p = 0.6456$), confirming that observed returns are statistically indistinguishable from random chance and market drift.
 
 ---
 
-## 2. Wick Signal Frequency on Real Market Data
+## 1. Methodology
 
-| Signal Type | Frequency |
-|------------|-----------|
-| Long Signals | 3.56 percent |
-| Short Signals | 1.85 percent |
+### 1.1 Empirical Dataset (2010 to 2025)
+The empirical phase utilized high-fidelity daily OHLC data for the SPY ETF spanning 15 years. Signals were defined by the ratio of wick length to candle body, normalized by the Average True Range (ATR) to ensure consistency across different volatility regimes.
 
-Interpretation:
-Signals are rare and selective. There is a clear long-side dominance, suggesting a directional market bias rather than a symmetric signal.
+### 1.2 Synthetic OHLC Data and Monte Carlo Simulation
+To isolate "False Alpha," we generated synthetic OHLC data using a Geometric Brownian Motion (GBM) stochastic process. This control group allowed us to observe how the signal-detection algorithm behaves in a vacuum with no market structure or underlying "rejection" logic.
 
----
-
-## 3. Forward Return Analysis
-
-### Long Signals
-
-| Horizon | Mean Return | Win Rate | Count |
-|--------|-------------|----------|-------|
-| 1 Day | +0.024 percent | 57.0 percent | 142 |
-| 3 Days | +0.186 percent | 59.2 percent | 142 |
-| 5 Days | +0.361 percent | 66.9 percent | 142 |
-
-### Short Signals
-
-| Horizon | Mean Return | Win Rate | Count |
-|--------|-------------|----------|-------|
-| 1 Day | -0.061 percent | 41.9 percent | 74 |
-| 3 Days | -0.142 percent | 40.5 percent | 74 |
-| 5 Days | -0.307 percent | 41.9 percent | 74 |
-
-Interpretation:
-Long signals show increasing positive drift with longer holding horizons. Short signals are weaker and inconsistent. This asymmetry is consistent with long-term equity market drift rather than a strong directional candle-based edge.
+**Simulation Parameters:**
+* **Simulations:** 100 runs of 1,000 candles each.
+* **Risk Management:** 1% Risk per trade, 0.5% Stop Loss, 2.0 R-Multiple.
+* **Signal Thresholds:** Wick Ratio (1.5), Strong Wick Ratio (2.5).
 
 ---
 
-## 4. Forward Return Distribution
+## 2. Interpretation of Results
 
-The one-day forward return distribution for both long and short signals is tightly centered around zero and closely approximates a normal distribution. Any observed edge is extremely small in magnitude.
+### 2.1 Identifying Structural Model Bias (Monte Carlo Results)
+Because the simulation utilizes synthetic OHLC data, specific metrics vary across different runs. However, the structural bias remains constant. The table below represents the typical performance of the signal in a zero-alpha, random-walk environment:
+
+| Metric | Typical Observed Range | Interpretation |
+| :--- | :--- | :--- |
+| **Mean Final Capital** | 1,170 – 1,195 | Consistent Positive Expectancy Bias |
+| **Median Final Capital** | 1,180 – 1,190 | Robustness of Bias across Paths |
+| **Win Rate** | 95.0% – 99.0% | Extreme Structural Artifact |
+| **Worst Run (Drawdown)** | 910 – 950 | Limited risk despite random inputs |
+
+#### A. Final Capital Distribution
+![Monte Carlo Final Capital Distribution](images/mc_distribution.png)
+The terminal wealth distribution typically centers around ~1,180. In a mathematically "fair" random environment, this center should be 1,000. This shift identifies a **positive expectancy bias** inherent in the signal definition itself rather than the underlying price action.
+
+#### B. Expected Value of Equity
+![Expected Value of Equity](images/mc_mean_equity.png)
+The mean equity curve displays a near-linear upward trajectory. Since the synthetic OHLC data is generated with a drift of zero ($\mu=0.0$), this positive slope is the "Smoking Gun" of **Structural Bias**. It demonstrates how a trading rule can appear highly profitable on a random walk simply due to how the entry and exit logic are framed.
+
+#### C. Monte Carlo Equity Paths
+![Monte Carlo Equity Paths](images/mc_equity_paths.png)
+The spaghetti plot confirms that the upward drift is not caused by outlier runs, but is a systemic trend across the majority of simulations. This is a primary example of **Data Mining Bias** (Aronson, 2011), where a model finds "order" in pure noise.
+
+### 2.2 Empirical Significance (SPY)
+
+#### D. Forward 1-Day Return Distribution
+![Forward 1-Day Return Distribution](images/return_distribution.png)
+When transitioning to real-world SPY data, the "Long signal" distribution (blue) almost perfectly overlays the "All candles" baseline (gray). The lack of any distinct shift in the blue distribution suggests that the wick pattern does not alter the probability density of the next day's returns.
+
+#### E. Permutation Test Results
+![Permutation Test Result](images/permutation_test.png)
+The observed mean difference (red line) is located deep within the central mass of the null hypothesis distribution. With a **p-value of 0.6456**, we conclude that there is a 64.56% probability that the observed results could be generated by pure chance, failing the standard academic threshold for significance ($p < 0.05$).
 
 ---
 
-## 5. Permutation Test for Statistical Significance
+## 3. Discussion and Literature Review
 
-### Long Signal One-Day Horizon
+The findings of this project are consistent with rigorous statistical evaluations in quantitative literature:
 
-| Metric | Value |
-|-------|-------|
-| Observed Mean Difference | -0.000339 |
-| p-value | 0.6436 |
 
-Interpretation:
-The high p-value indicates that the observed performance is statistically indistinguishable from random chance. The null hypothesis cannot be rejected.
+
+* **Marshall, Young, and Rose (2006):** Utilized bootstrap methodologies across Dow Jones components and explicitly failed to find statistically significant excess returns from candlestick signals, concluding they do not create value in efficient markets.
+* **Aronson (2011):** Emphasizes that many technical signals are the result of **Data Mining Bias**. This research utilizes the "Scientific Method" approach advocated by Aronson to move beyond anecdotal patterns toward objective statistical inference.
+* **Jamaloodeen, Heinz, and Pollacia (2018):** Conducted a statistical analysis confirming that while wicks (price extremes) may encode minor information, the observed effects remain small, temporary, and insufficient for robust trading profitability.
 
 ---
 
-## Final Conclusions
-
-- Wick-based candlestick signals do not exhibit standalone predictive power
-- Apparent profitability in Monte Carlo testing is driven by structural bias
-- Real market data shows weak effects that fail statistical significance tests
-- No reliable directional alpha is detected
+## 4. Conclusion
+The 2010 to 2025 analysis confirms that wick-based signals lack standalone predictive power. Apparent profitability in synthetic OHLC data is an artifact of model bias, while real-world results fail to reject the null hypothesis. Consequently, wick behavior is best utilized not as a directional entry, but as a **contextual filter** to be combined with higher-order market structures such as VWAP or Volume Profile.
 
 ---
 
-## Key Takeaways
-
-- Monte Carlo profitability does not imply real-world edge
-- Forward return analysis is more informative than cumulative equity curves
-- Statistical testing is essential to avoid false conclusions
-- Wick patterns are better suited as contextual or filtering signals rather than standalone entries
-
-This repository serves as a research framework for further experimentation, including regime filters, volatility conditioning, and walk-forward validation.
+## References
+* **Aronson, D. (2011).** *Evidence-Based Technical Analysis: Applying the Scientific Method and Statistical Inference to Trading Signals*. Wiley. [DOI: 10.1002/9781118268315]
+* **Jamaloodeen, M., Heinz, A., & Pollacia, L. (2018).** *A Statistical Analysis Of The Predictive Power Of Japanese Candlesticks*. Journal of International and Interdisciplinary Business Research. [DOI: 10.58809/OEJO4473]
+* **Marshall, B., Young, M., & Rose, L. (2006).** *Candlestick technical trading strategies: Can they create value for investors?* Journal of Banking & Finance. [DOI: 10.1016/j.jbankfin.2005.08.001]
