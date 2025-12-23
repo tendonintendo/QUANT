@@ -1,114 +1,62 @@
-# Quantitative Finance Learning Journey
+# Quantitative Market Microstructure and Signal Invalidation
+**Author:** Muhammad Rengga Putra Kuncoro  
+**Focus:** Statistical Inference, Monte Carlo Simulations, and Intraday Structural Alpha
 
-## Overview
+## Executive Summary
+This repository contains a two-part quantitative study on market efficiency and the statistical validity of technical signals. The project transitions from invalidating structural biases in common price action heuristics to engineering a robust mean-reversion framework anchored by institutional value metrics (VWAP).
 
-This repository documents my personal journey into quantitative finance and algorithmic trading. As someone diving deeper into the world of trading, I've created this project to explore key concepts in quant finance, with a focus on modeling, simulation, backtesting, and other computer science principles applied to financial markets.
-
-The project so far has been organized into four main areas:
-- **Visualize**: Basic data visualization and analysis tools for market data
-- **Modeling**: Exploring volatility modeling techniques like GARCH for cryptocurrency markets
-- **Price Action Analysis**: Developing and validating a wick-based trading strategy using Monte Carlo simulation and statistical testing
-- **Intraday VWAP Model**: Intraday mean-reversion strategy combining VWAP anchors with wick-based filters for SPY trading
-
-This is an educational project aimed at understanding the complexities of financial markets through hands-on implementation rather than building production-ready trading systems.
-
-## Project Structure
-
-### Visualize/
-Basic visualization tools for financial data analysis:
-- `main.ipynb`: Jupyter notebook with price charts, moving averages, return distributions, and rolling volatility plots for cryptocurrency data
-
-### Modeling/
-Contains Jupyter notebooks exploring advanced financial modeling techniques:
-- `garch.ipynb`: Implementation of GARCH (Generalized Autoregressive Conditional Heteroskedasticity) models for volatility forecasting in Bitcoin. Includes rolling volatility analysis, volatility regime classification, and multi-step ahead volatility predictions.
-
-### Price Action Analysis/
-A comprehensive research framework for testing wick-based candlestick trading strategies:
-- `main.py`: Entry point for running the complete analysis pipeline
-- `backtest.py`: Backtesting engine with risk management (stop losses, position sizing)
-- `strategy.py`: Signal generation logic for wick-based price action patterns
-- `monte_carlo.py`: Monte Carlo simulation using synthetic OHLC data to test for model bias
-- `wick_signal_validation.py`: Statistical validation of signals using forward return analysis and permutation testing
-- `mc_visualization.py`: Visualization tools for Monte Carlo results
-- `config.py`: Configuration parameters for risk management and strategy settings
-
-Key findings from this module:
-- Monte Carlo simulations revealed strong model bias in synthetic data
-- Real market data showed weak statistical significance for wick patterns
-- Emphasizes the importance of rigorous statistical testing over curve-fitting
-
-### Intraday VWAP Model/
-An intraday mean-reversion trading strategy for SPY using 5-minute bars:
-- `main.py`: Entry point for running the backtest and evaluation pipeline
-- `backtest.py`: Backtesting engine with VWAP-based entries, wick filters, and risk management
-- `data.py`: Data acquisition and preprocessing for intraday SPY data
-- `evaluation.py`: Performance analysis, Monte Carlo robustness testing, and trade statistics
-
-Key findings from this module:
-- Wick patterns serve as effective contextual filters for mean-reversion setups
-- VWAP provides a strong intraday fair-value anchor for profit targets
-- Strategy exhibits asymmetric payoffs with bounded drawdowns and low win rate but high profit factor
-- Emphasizes structural edges over pattern-based predictions in intraday trading
-
-## Key Concepts Explored
-
-### Modeling & Simulation
-- **GARCH Models**: Capturing volatility clustering and persistence in financial time series
-- **Monte Carlo Methods**: Generating synthetic market data to test strategy robustness and resampling trades for robustness analysis
-- **VWAP (Volume-Weighted Average Price)**: Using VWAP as a fair-value anchor for intraday mean-reversion strategies
-- **ATR (Average True Range)**: Measuring volatility for dynamic risk controls and entry filters
-- **EMA (Exponential Moving Average)**: Trend filtering to avoid counter-trend trades in mean-reversion setups
-- **Volatility Regimes**: Classifying market conditions into low/medium/high volatility states
-
-### Backtesting & Validation
-- **Risk Management**: Position sizing, stop losses, and risk per trade controls; fixed dollar risk and ATR-based exits
-- **Statistical Testing**: Permutation tests for significance, forward return analysis, and trade resampling
-- **Bias Detection**: Separating genuine alpha from data-snooping and model overfitting
-- **Profit Factor Analysis**: Evaluating strategy performance through win/loss asymmetry and drawdown bounds
-
-### Computer Science Applications
-- **Data Structures**: Time series manipulation with pandas for intraday and daily data
-- **Algorithms**: Signal generation, backtesting loops, statistical computations, and resampling techniques
-- **Visualization**: Matplotlib for financial charts and analysis; custom plots for Monte Carlo results
-- **APIs**: yfinance for market data retrieval and intraday data processing
-
-## Getting Started
-
-### Prerequisites
-- Python 3.11+
-- Jupyter Notebook
-- Required packages listed in `requirements.txt`
-
-### Installation
-```bash
-pip install -r requirements.txt
-```
-
-### Running the Models
-```bash
-python main.py
-```
-
-This will execute the full pipeline: Monte Carlo simulation, backtesting, and evaluation.
-
-### Exploring Models
-Open the Jupyter notebooks in Modeling/ and Visualize/ to see interactive implementations of GARCH modeling and data visualization.
-
-## Current Status
-
-This project represents my ongoing learning process. Through rigorous research in the Price Action Analysis module, I learned that wick patterns alone lack standalone predictive power, emphasizing the need for statistical validation over curve-fitting. Building on these insights, the Intraday VWAP Model demonstrates how wick signals can serve as effective contextual filters in structured mean-reversion strategies, highlighting the importance of market structure and bounded risk management in developing survivable trading systems.
-
-## Disclaimer
-
-This is an educational project for learning purposes only. The strategies and models presented here are not intended for actual trading or investment decisions. Financial markets involve significant risk, and past performance does not guarantee future results.
-
-## References & Learning Resources
-
-- "Advances in Financial Machine Learning" by Marcos Lopez de Prado
-- "Python for Data Analysis" by Wes McKinney
-- Online courses on quantitative finance and algorithmic trading
-- Academic papers on GARCH models and volatility forecasting
+### Key Research Findings
+* **Signal Invalidation:** Demonstrated that standalone wick-based patterns fail to reject the null hypothesis (p = 0.6456). Apparent alpha in initial simulations was identified as a structural artifact of entry/exit framing rather than predictive power.
+* **Integrated Alpha:** Developed a VWAP-anchored mean reversion model yielding a Profit Factor of 2.25 and a statistically significant edge (p = 0.039).
+* **Risk Management:** Achieved a 96.1% Probability of Profit across 1,000 Monte Carlo path resamples, confirming the robustness of the integrated system.
 
 ---
 
-*This repository serves as both a practical toolkit and a learning diary for quantitative finance concepts.*
+## Repository Structure
+
+### Part 1: Statistical Validation of Price Action Signals
+* **Objective:** Test the predictive validity of wick-based candlestick patterns.
+* **Methodology:** Permutation Testing and Monte Carlo Bias Detection using 15 years of SPY ETF data.
+* **Key Result:** High win rates on stochastic synthetic data identified "False Alpha" inherent in the signal's logic.
+
+
+
+### Part 2: Integrated Alpha via VWAP Mean Reversion
+* **Objective:** Engineering a tradable system by combining price exhaustion with structural anchors.
+* **Methodology:** Asymmetric Payoff Decomposition on 5-minute intraday intervals.
+* **Key Result:** Exploited volatility elasticity to create a positively skewed PnL distribution with a median win-to-loss duration ratio of 6:1.
+
+
+
+---
+
+## Tech Stack and Methodology
+* **Language:** Python (Pandas, NumPy, SciPy, Matplotlib)
+* **Statistical Frameworks:**
+    * **Stochastic Synthetic Control Groups:** Used for generating neutral OHLC data to isolate logic-based bias.
+    * **Permutation Testing:** Used to calculate exact p-values against randomized baselines.
+    * **Monte Carlo Resampling:** Used to assess path dependency and maximum drawdown robustness.
+
+---
+
+## Literature Review and Academic Benchmarks
+
+### Part 1: Technical Analysis and Market Efficiency
+* **Marshall, Young, and Rose (2006):** Utilized bootstrap methodologies across Dow Jones components and explicitly failed to find statistically significant excess returns from candlestick signals, concluding they do not create value in efficient markets.
+* **Aronson (2011):** Emphasizes that many technical signals are the result of Data Mining Bias. This research utilizes the "Scientific Method" approach advocated by Aronson to move beyond objective statistical inference.
+* **Jamaloodeen, Heinz, and Pollacia (2018):** Conducted a statistical analysis confirming that while wicks (price extremes) may encode minor information, the observed effects remain small, temporary, and insufficient for robust trading profitability.
+
+### Part 2: Mean Reversion and Structural Alpha
+* **Nassar and Ephrem (2020):** In Mean Reversion: A New Approach, the authors argue that price movements are overextensions from a volume-weighted equilibrium. Our results, specifically the rapid 10-minute median hold, validate their velocity of reversion thesis.
+* **Bhattacharyya (2024):** Design and Development of Mean Reversion Strategies emphasizes convexity over win rate. Our Trade Sharpe (0.22) and Profit Factor (2.25) align with the performance profiles of modern intraday mean-reversion algorithms that prioritize risk-to-reward ratios.
+* **Leung and Li (2015):** In Optimal Mean Reversion Trading, the authors provide a framework for Optimal Stopping. Our data shows that winners take 6x longer to develop than losers, suggesting that mean reversion is a process of decay back to the VWAP anchor.
+
+---
+
+## Future Research Directions
+* **Uncertainty Quantification:** Implementing Conformal Prediction to generate adaptive confidence intervals for mean-reversion targets, ensuring guaranteed coverage.
+* **Order Flow Integration:** Incorporating Volume Profile and Cumulative Delta to refine signal exhaustion points.
+* **High-Performance Backtesting:** Porting the simulation engine to C++ to evaluate nanosecond-level latency and high-frequency execution effects.
+
+---
+*Disclaimer: This repository is for research and educational purposes only. Quantitative models involve significant risk and past performance is not indicative of future results.*
