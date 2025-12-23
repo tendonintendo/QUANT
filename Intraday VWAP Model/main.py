@@ -7,7 +7,8 @@ from evaluation import (
     equity_sharpe,
     monte_carlo_trades,
     decompose_trades,
-    trade_sequence_stats
+    trade_sequence_stats,
+    plot_strategy_results
 )
 
 # -------------------------------------------------
@@ -136,6 +137,13 @@ def main():
         print(f"Median Hold (bars): {breakdown['loss_hold_bars']}")
 
         print(f"\nProfit Factor: {breakdown['profit_factor']:.2f}")
+
+    # ---------------- Visualization ----------------
+    plot_strategy_results(
+        df=df,
+        equity_curve=equity_curve,
+        trades=trades,
+    )
 
 
 

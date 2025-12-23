@@ -1,5 +1,28 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import os
+
+def plot_strategy_results(df, equity_curve, trades):
+    IMAGE_DIR = "./images/"
+    if not os.path.exists(IMAGE_DIR):
+        os.makedirs(IMAGE_DIR)
+
+    # 1. Equity Curve Plot
+    plt.figure(figsize=(12, 6))
+    plt.plot(equity_curve, label='Equity Curve', color='blue')
+    plt.title('Intraday Strategy Performance (SPY)')
+    plt.ylabel('Capital')
+    plt.grid(True, alpha=0.3)
+    plt.savefig(f"{IMAGE_DIR}equity_curve.png")
+    
+    # 2. Trade Distribution (Asymmetry)
+    pnls = [t['pnl'] for t in trades]
+    plt.figure(figsize=(10, 5))
+    plt.hist(pnls, bins=20, color='skyblue', edgecolor='black')
+    plt.axvline(0, color='red', linestyle='--')
+    plt.title('Trade PnL Distribution (Asymmetric Payoff)')
+    plt.savefig(f"{IMAGE_DIR}trade_distribution.png")
 
 def trade_sequence_stats(trades):
     """
@@ -27,7 +50,6 @@ def trade_sequence_stats(trades):
         max_loss_streak = max(max_loss_streak, current_loss)
         max_win_streak = max(max_win_streak, current_win)
 
-    # Equity recovery stats
     equity = np.cumsum(pnls)
     peak = equity[0]
     drawdowns = []
