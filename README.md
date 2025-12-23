@@ -19,14 +19,10 @@ This repository contains a two-part quantitative study on market efficiency and 
 * **Methodology:** Permutation Testing and Monte Carlo Bias Detection using 15 years of SPY ETF data.
 * **Key Result:** High win rates on stochastic synthetic data identified "False Alpha" inherent in the signal's logic.
 
-
-
 ### Part 2: Integrated Alpha via VWAP Mean Reversion
 * **Objective:** Engineering a tradable system by combining price exhaustion with structural anchors.
 * **Methodology:** Asymmetric Payoff Decomposition on 5-minute intraday intervals.
 * **Key Result:** Exploited volatility elasticity to create a positively skewed PnL distribution with a median win-to-loss duration ratio of 6:1.
-
-
 
 ---
 
@@ -42,21 +38,21 @@ This repository contains a two-part quantitative study on market efficiency and 
 ## Literature Review and Academic Benchmarks
 
 ### Part 1: Technical Analysis and Market Efficiency
-* **Marshall, Young, and Rose (2006):** Utilized bootstrap methodologies across Dow Jones components and explicitly failed to find statistically significant excess returns from candlestick signals, concluding they do not create value in efficient markets.
-* **Aronson (2011):** Emphasizes that many technical signals are the result of Data Mining Bias. This research utilizes the "Scientific Method" approach advocated by Aronson to move beyond objective statistical inference.
-* **Jamaloodeen, Heinz, and Pollacia (2018):** Conducted a statistical analysis confirming that while wicks (price extremes) may encode minor information, the observed effects remain small, temporary, and insufficient for robust trading profitability.
+* **Marshall, Young, and Rose (2006):** Utilized bootstrap methodologies across Dow Jones components and explicitly failed to find statistically significant excess returns from candlestick signals.
+* **Aronson (2011):** Emphasizes that many technical signals are the result of Data Mining Bias; utilizes the Scientific Method to move beyond anecdotal patterns.
+* **Jamaloodeen, Heinz, and Pollacia (2018):** Statistical analysis confirming that observed effects of price extremes remain insufficient for robust trading profitability.
 
 ### Part 2: Mean Reversion and Structural Alpha
-* **Nassar and Ephrem (2020):** In Mean Reversion: A New Approach, the authors argue that price movements are overextensions from a volume-weighted equilibrium. Our results, specifically the rapid 10-minute median hold, validate their velocity of reversion thesis.
-* **Bhattacharyya (2024):** Design and Development of Mean Reversion Strategies emphasizes convexity over win rate. Our Trade Sharpe (0.22) and Profit Factor (2.25) align with the performance profiles of modern intraday mean-reversion algorithms that prioritize risk-to-reward ratios.
-* **Leung and Li (2015):** In Optimal Mean Reversion Trading, the authors provide a framework for Optimal Stopping. Our data shows that winners take 6x longer to develop than losers, suggesting that mean reversion is a process of decay back to the VWAP anchor.
+* **Nassar and Ephrem (2020):** Argues that price movements are overextensions from a volume-weighted equilibrium; validates the velocity of reversion thesis.
+* **Bhattacharyya (2024):** Emphasizes convexity and risk-to-reward ratios in modern intraday mean-reversion algorithms.
+* **Leung and Li (2015):** Provides a framework for Optimal Stopping, consistent with our findings on winning trade decay.
 
 ---
 
 ## Future Research Directions
-* **Uncertainty Quantification:** Implementing Conformal Prediction to generate adaptive confidence intervals for mean-reversion targets, ensuring guaranteed coverage.
-* **Order Flow Integration:** Incorporating Volume Profile and Cumulative Delta to refine signal exhaustion points.
-* **High-Performance Backtesting:** Porting the simulation engine to C++ to evaluate nanosecond-level latency and high-frequency execution effects.
+* **Uncertainty Quantification in ML:** Exploring methods like **Conformal Prediction** to generate statistically guaranteed confidence intervals for predictive models.
+* **Reliable Distributed Simulation:** Porting logic engines to **C++** to handle high-concurrency event-driven simulations with nanosecond precision.
+* **Order Flow Dynamics:** Incorporating Volume Profile and Cumulative Delta to refine signal exhaustion points in high-volatility regimes.
 
 ---
 *Disclaimer: This repository is for research and educational purposes only. Quantitative models involve significant risk and past performance is not indicative of future results.*
