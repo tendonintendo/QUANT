@@ -10,6 +10,7 @@ from evaluation import (
     trade_sequence_stats,
     plot_strategy_results
 )
+import os
 
 # -------------------------------------------------
 # Configuration
@@ -55,6 +56,13 @@ def main():
     df = load_ohlc(SYMBOL)
     df = prepare_features(df)
     df.dropna(inplace=True)
+
+    DATA_DIR = "data"
+    if not os.path.exists(DATA_DIR):
+        os.makedirs(DATA_DIR)
+
+    csv_path = os.path.join(DATA_DIR, f"{SYMBOL}_processed.csv")
+    df.to_csv(csv_path)
 
     # Run backtest
     final_capital, equity_curve, trades = backtest(

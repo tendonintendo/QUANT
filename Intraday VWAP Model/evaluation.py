@@ -3,25 +3,46 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-def plot_strategy_results(df, equity_curve, trades):
+def plot_strategy_results(df, equity_curve, trades, initial_capital=1000):
     IMAGE_DIR = "./images/"
     if not os.path.exists(IMAGE_DIR):
         os.makedirs(IMAGE_DIR)
 
-    # 1. Equity Curve Plot
+    pnls = np.array([t['pnl'] for t in trades])
+    trade_equity = initial_capital + np.cumsum(np.insert(pnls, 0, 0))
+
+    # --- 1. Monte Carlo Spaghetti Plot (Standard Quant View) ---
     plt.figure(figsize=(12, 6))
-    plt.plot(equity_curve, label='Equity Curve', color='blue')
-    plt.title('Intraday Strategy Performance (SPY)')
-    plt.ylabel('Capital')
-    plt.grid(True, alpha=0.3)
-    plt.savefig(f"{IMAGE_DIR}equity_curve.png")
     
-    # 2. Trade Distribution (Asymmetry)
-    pnls = [t['pnl'] for t in trades]
+    if len(pnls) > 0:
+        rng = np.random.default_rng(42)
+        for i in range(50):
+            sampled = rng.choice(pnls, size=len(pnls), replace=True)
+            path = initial_capital + np.cumsum(np.insert(sampled, 0, 0))
+            plt.plot(path, color='gray', alpha=0.15, linewidth=1)
+
+    plt.plot(trade_equity, label='Actual Strategy Path', color='blue', linewidth=2)
+    plt.axhline(initial_capital, color='black', linestyle='--', alpha=0.5, label='Initial Capital')
+    
+    plt.title('Monte Carlo Spaghetti Plot (Trade-by-Trade)', fontsize=14)
+    plt.xlabel('Number of Trades', fontsize=12)
+    plt.ylabel('Capital ($)', fontsize=12)
+    plt.legend()
+    plt.grid(True, alpha=0.2)
+    plt.tight_layout()
+    plt.savefig(f"{IMAGE_DIR}mc_spaghetti_paths.png")
+
+    # --- 2. Asymmetric Payoff Distribution ---
     plt.figure(figsize=(10, 5))
-    plt.hist(pnls, bins=20, color='skyblue', edgecolor='black')
-    plt.axvline(0, color='red', linestyle='--')
-    plt.title('Trade PnL Distribution (Asymmetric Payoff)')
+    plt.hist(pnls, bins=15, color='teal', edgecolor='black', alpha=0.7)
+    plt.axvline(0, color='red', linestyle='-', linewidth=1.5, label='Breakeven')
+    plt.axvline(np.mean(pnls), color='gold', linestyle='--', label=f'Mean Trade: {np.mean(pnls):.2f}')
+    
+    plt.title('Trade PnL Distribution (Asymmetric Payoff)', fontsize=14)
+    plt.xlabel('Profit / Loss ($)', fontsize=12)
+    plt.ylabel('Frequency', fontsize=12)
+    plt.legend()
+    plt.tight_layout()
     plt.savefig(f"{IMAGE_DIR}trade_distribution.png")
 
 def trade_sequence_stats(trades):
